@@ -13,7 +13,6 @@ const styles = theme => ({
       overflowX: 'auto',
     },
     table: {
-      minWidth: 700,
     },
   });  
 
@@ -22,7 +21,7 @@ const SongTable = props => {
 
     return (
         <Paper className={classes.root}>
-        <Table className={classes.table}>
+        <Table className={classes.table} padding='dense'>
           <TableHead>
             <TableRow>
               <TableCell>Title</TableCell>
