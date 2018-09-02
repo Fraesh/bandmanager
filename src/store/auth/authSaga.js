@@ -20,7 +20,7 @@ import {
 
 import rsf from "../rsf";
 
-const authProvider = new firebase.auth.GoogleAuthProvider();
+const authProvider = new firebase.auth.FacebookAuthProvider();
 
 function* loginSaga() {
   try {
