@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom';
 export const MainItems = props => {
     return(
   <div>
-      <Link to='/songs' onClick={props.close}>
+      <Link to='/songs/' style={{textDecoration:'none'}} onClick={props.close}>
     <ListItem button>
       <ListItemIcon>
         <InboxIcon />
@@ -19,12 +19,14 @@ export const MainItems = props => {
       <ListItemText primary="Songs" />
     </ListItem>
     </Link>
+    <Link to='/setlist/' style={{textDecoration:'none'}} onClick={props.close}>
     <ListItem button>
       <ListItemIcon>
         <StarIcon />
       </ListItemIcon>
-      <ListItemText primary="Starred" />
+      <ListItemText primary="Setlists" />
     </ListItem>
+    </Link>
     <ListItem button>
       <ListItemIcon>
         <SendIcon />

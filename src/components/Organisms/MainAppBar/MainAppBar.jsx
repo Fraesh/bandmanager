@@ -1,19 +1,22 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import { loginRequest, logoutRequest } from "./../../../store/auth/authActions";
+import { connect } from "react-redux";
+import { Avatar } from "@material-ui/core";
 
 const styles = theme => ({
   appBar: {
-    flexGrow:1,
+    flexGrow: 1,
     position: "fixed",
-    top:0,
-    left:0,
-    zIndex:2,
+    top: 0,
+    left: 0,
+    zIndex: 2
   },
   menuButton: {
     marginLeft: -12,
@@ -23,25 +26,78 @@ const styles = theme => ({
     }
   },
   toolbar: {
-    width:'100%'
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  side: {
+    display: "flex",
+    alignItems: "center"
+  },
+  avatar: {
+    width: "2rem",
+    height: "2rem",
+    margin: ".5rem"
+  },
+  avatarSection:{
+    display:'flex',
+    alignItems:'center',
+    marginRight: theme.spacing.unit
   }
 });
 
 const MainAppBar = props => {
   const { classes } = props;
   return (
-      <AppBar className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={props.toggleDrawer}>
+    <AppBar className={classes.appBar}>
+      <Toolbar className={classes.toolbar}>
+        <div className={classes.side}>
+          <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+            onClick={props.toggleDrawer}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit" className={classes.flex}>
             {props.title}
           </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
+        </div>
+        <div className={classes.side}>
+          {props.loggedIn ? (
+            <React.Fragment>
+              <div className={classes.avatarSection}>
+                <Avatar className={classes.avatar}>
+                  {props.user && props.user.displayName[0]}
+                </Avatar>
+                {props.user && props.user.displayName}
+              </div>
+              <Button color="inherit" onClick={props.logoutRequest}>
+                Logout
+              </Button>
+            </React.Fragment>
+          ) : (
+            <Button color="inherit" onClick={props.loginRequest}>
+              Login
+            </Button>
+          )}
+        </div>
+      </Toolbar>
+    </AppBar>
   );
-}
+};
 
-export default withStyles(styles)(MainAppBar);
+const mapStateToProps = state => ({
+  loggedIn: state.auth.loggedIn,
+  user: state.auth.user
+});
+const mapDispatchToProps = {
+  loginRequest,
+  logoutRequest
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(MainAppBar));

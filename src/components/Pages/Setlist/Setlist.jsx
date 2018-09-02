@@ -1,13 +1,18 @@
 import React from "react";
-import { SongpoolTemplate } from "../../Templates/SongpoolTemplate/SongpoolTemplate";
+import SetlistScreenTemplate from "../../Templates/SetlistScreenTemplate/SetlistScreenTemplate";
 import { addSong } from "../../../store/songs/songsActions";
 import { connect } from "react-redux";
 
 const Songpool = props => {
   const { songs, addSong } = props;
+  console.log(songs);
   return (
     <div>
-      <SongpoolTemplate data={songs || []} addSong={addSong} />
+      <SetlistScreenTemplate
+        songs={songs}
+        setlist={null}
+        addSong={addSong}
+      />
     </div>
   );
 };

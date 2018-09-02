@@ -8,12 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
-    container:{
-        padding:theme.spacing.unit*2
-    },
     root: {
       width: '100%',
-      marginTop: theme.spacing.unit * 3,
       overflowX: 'auto',
     },
     table: {
@@ -25,7 +21,6 @@ const SongTable = props => {
     const { classes, data } = props;
 
     return (
-        <div className={classes.container}>
         <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
@@ -54,7 +49,6 @@ const SongTable = props => {
           </TableBody>
         </Table>
       </Paper>
-      </div>
     );
 }
 
