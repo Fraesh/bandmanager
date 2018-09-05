@@ -5,15 +5,57 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Chip from "@material-ui/core/Chip";
+import { connect } from 'react-redux'
+ 
+const styles = theme => ({
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+    maxWidth: 300
+  },
+  chips: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  chip: {
+    margin: theme.spacing.unit / 4
+  }
+});
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder"
+];
 
-const styles = {};
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
 
 class AddSongDialog extends React.Component {
-  state = { name: "", key: "", bpm: NaN, length: "", singer: "" };
+  state = { name: "", key: "", bpm: NaN, length: "", singer: [] };
   render() {
-    const { classes, onClose, selectedValue, ...other } = this.props;
+    const { classes, theme, onClose, selectedValue, users, ...other } = this.props;
 
     return (
       <Dialog
@@ -31,14 +73,38 @@ class AddSongDialog extends React.Component {
             type="text"
             onChange={data => this.setState({ name: data.target.value })}
           />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="singer"
-            label="Singer"
-            type="text"
-            onChange={data => this.setState({ singer: data.target.value })}
-          />
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="select-multiple-chip">Chip</InputLabel>
+            <Select
+              multiple
+              value={this.state.singer}
+              onChange={e => this.setState({ singer: e.target.value })}
+              input={<Input id="select-multiple-chip" />}
+              renderValue={selected => (
+                <div className={classes.chips}>
+                  {selected.map(value => (
+                    <Chip key={value} label={value} className={classes.chip} />
+                  ))}
+                </div>
+              )}
+              MenuProps={MenuProps}
+            >
+              {users.map(name => (
+                <MenuItem
+                  key={name.uid}
+                  value={name.displayName}
+                  style={{
+                    fontWeight:
+                      this.state.name.indexOf(name.displayName) === -1
+                        ? theme.typography.fontWeightRegular
+                        : theme.typography.fontWeightMedium
+                  }}
+                >
+                  {name.displayName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             autoFocus
             margin="dense"
@@ -60,7 +126,8 @@ class AddSongDialog extends React.Component {
             margin="dense"
             id="length"
             label="Length"
-            type="text"
+            type="time"
+            inputProps={{ min: "0:00", max: "100:59" }}
             onChange={data => this.setState({ length: data.target.value })}
           />
         </DialogContent>
@@ -88,4 +155,11 @@ class AddSongDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(AddSongDialog);
+const mapStateToProps = state => ({
+  users: state.users
+});
+
+export default connect(
+  mapStateToProps,
+ null
+)(withStyles(styles, { withTheme: true })(AddSongDialog));

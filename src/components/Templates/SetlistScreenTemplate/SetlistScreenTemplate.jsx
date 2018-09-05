@@ -1,8 +1,14 @@
-import React from 'react'
-import Setlist from '../../Molecules/Setlist/Setlist';
+import React from "react";
+import Setlist from "../../Organisms/Setlist/Setlist";
+import FAB from "../../Atoms/FAB/FAB";
 
 const SetlistScreenTemplate = props => {
-    return (<Setlist data={props.songs} secondary={true} dense={true}/>);
-}
+  return (
+    <React.Fragment>
+      <FAB onClick={props.addSet} />
+      <Setlist songs={props.songs} setlist={props.setlist}/>
+    </React.Fragment>
+  );
+};
 
 export default SetlistScreenTemplate;

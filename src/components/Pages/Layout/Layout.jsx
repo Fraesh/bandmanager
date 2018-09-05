@@ -8,7 +8,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 10,
     flexGrow: 1,
     padding: theme.spacing.unit *2,
-    width:'100%'
+    width:'100%',
+    overflowX:'auto'
   }
 });
 class Layout extends React.Component {

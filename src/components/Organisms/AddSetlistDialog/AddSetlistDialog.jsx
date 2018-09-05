@@ -5,7 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 const styles = {};
@@ -32,11 +31,14 @@ class AddSetlistDialog extends React.Component {
             onChange={data => this.setState({ name: data.target.value })}
           />
           <TextField
-            autoFocus
+            InputLabelProps={{
+              shrink: true
+            }}
             margin="dense"
             id="date"
             label="Date"
-            type="text"
+            defaultValue={'2018-01-01'}
+            type="date"
             onChange={data => this.setState({ date: data.target.value })}
           />
         </DialogContent>

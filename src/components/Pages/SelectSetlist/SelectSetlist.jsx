@@ -13,7 +13,7 @@ const SelectSetlist = props => {
 };
 
 const mapStateToProps = state => ({
-  setlists: state.setlists.setlists
+  setlists: state.setlists
 });
 const mapDispatchToProps = {
   addSetlist

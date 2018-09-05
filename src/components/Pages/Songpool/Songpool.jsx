@@ -13,7 +13,7 @@ const Songpool = props => {
 };
 
 const mapStateToProps = state => ({
-  songs: state.songs.songs
+  songs: state.songs
 });
 const mapDispatchToProps = {
   addSong

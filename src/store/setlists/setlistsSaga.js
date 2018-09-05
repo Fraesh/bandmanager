@@ -1,6 +1,6 @@
 
-import { all, call, fork, takeEvery } from 'redux-saga/effects'
-
+import { all, call, fork, takeEvery, select } from 'redux-saga/effects'
+import uuid from 'uuid';
 import {
   types,
   syncSetlists
@@ -9,10 +9,10 @@ import {
 import rsf from '../rsf'
 
 function * addSetlistSaga (action) {
-  console.log(action);
     yield call(rsf.firestore.addDocument, 'setlists', {
       name:action.setlist.name,
-      sets:[],
+      sets:{},
+      setOrder:[],
       date:action.setlist.date,
       songs: 0,
       length:'00:00',
@@ -40,10 +40,21 @@ function * addSetlistSaga (action) {
       }
     )
   }
+
+  function* addSetSaga (action) {
+    let setlist = yield select((state) => state.setlists.find(set => set.id === action.setlistId))
+    const key = uuid.v4();
+    setlist.sets[key] = []
+    yield call(rsf.firestore.updateDocument, `setlists/${action.setlistId}`, {
+      sets:setlist.sets,
+      setOrder:[...setlist.setOrder, key]
+    })
+  }
   
   export default function * rootSaga () {
     yield all([
       fork(syncSetlistsSaga),
       takeEvery(types.SETLISTS.ADD, addSetlistSaga),
+      takeEvery(types.SETLISTS.SETLIST.ADD, addSetSaga)
     ])
   }

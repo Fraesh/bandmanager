@@ -18,7 +18,8 @@ class App extends Component {
           <Switch>
             <AuthRoute exact path="/songs/" component={Songpool} />
             <AuthRoute exact path="/setlist/" component={SelectSetlist} />
-            <AuthRoute exact path="/setlist/:id/" component={Setlist} />
+            <AuthRoute exact path="/setlist/:setlistId/" component={Setlist} />
+            {/* <Route exact path="/" component={Setlist} /> */}
           </Switch>
         </Layout>
       </ConnectedRouter>

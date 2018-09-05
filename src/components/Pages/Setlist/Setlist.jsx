@@ -1,30 +1,32 @@
 import React from "react";
 import SetlistScreenTemplate from "../../Templates/SetlistScreenTemplate/SetlistScreenTemplate";
-import { addSong } from "../../../store/songs/songsActions";
+import { addSet } from "../../../store/setlists/setlistsActions";
 import { connect } from "react-redux";
+import {withRouter} from 'react-router'
 
-const Songpool = props => {
-  const { songs, addSong } = props;
-  console.log(songs);
+const Setlist = props => {
+  const { songs, setlists, addSet, match } = props;
+  console.log(setlists)
   return (
-    <div>
+  
       <SetlistScreenTemplate
         songs={songs}
-        setlist={null}
-        addSong={addSong}
+        setlist={setlists.find(setlist => setlist.id ===match.params.setlistId)}
+        addSet={()=>addSet(match.params.setlistId)}
       />
-    </div>
+ 
   );
 };
 
 const mapStateToProps = state => ({
-  songs: state.songs.songs
+  songs: state.songs,
+  setlists: state.setlists,
 });
 const mapDispatchToProps = {
-  addSong
+  addSet
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Songpool);
+)(withRouter(Setlist));
