@@ -9,24 +9,38 @@ const styles = theme => ({
   }
 });
 
-const onDragEnd = result => {
-    if(!result.destination){
-        return ;
-    }
-    console.log(result)
-}
-
 const SetlistScreenTemplate = props => {
-  const { classes, setlist, songs } = props;
+  const { classes, setlist, songs, moveSong } = props;
+
+  const onDragEnd = result => {
+    moveSong(result.draggableId, result.source, result.destination);
+  };
+  let combinedSets = [];
+  setlist && (combinedSets = [].concat.apply([], Object.values(setlist.sets)));
+
   return (
     <div className={classes.container}>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Songlist data={songs} secondary={true} dense={true} id={0} />
-        {setlist ? setlist.setOrder.map((set,i) =>{
-        return (
-          <Songlist songs={setlist.sets[set]} heading={'Set ' + (i+1)} key={i+1} id={i+1}/>
-        );
-      }): null}
+        <Songlist
+          data={songs.filter(song => !combinedSets.includes(song.id))}
+          secondary={true}
+          dense={true}
+          id={"SONGPOOL"}
+        />
+        {setlist
+          ? setlist.setOrder.map((set, i) => {
+              return (
+                <Songlist
+                  data={setlist.sets[set].map(songId =>
+                    songs.find(song => song.id === songId)
+                  )}
+                  heading={"Set " + (i + 1)}
+                  key={i + 1}
+                  id={set}
+                />
+              );
+            })
+          : null}
       </DragDropContext>
     </div>
   );

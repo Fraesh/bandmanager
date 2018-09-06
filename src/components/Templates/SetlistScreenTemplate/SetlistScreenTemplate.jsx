@@ -6,7 +6,11 @@ const SetlistScreenTemplate = props => {
   return (
     <React.Fragment>
       <FAB onClick={props.addSet} />
-      <Setlist songs={props.songs} setlist={props.setlist}/>
+      <Setlist
+        songs={props.songs}
+        setlist={props.setlist}
+        moveSong={props.moveSong}
+      />
     </React.Fragment>
   );
 };

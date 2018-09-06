@@ -56,7 +56,11 @@ const Songlist = props => {
               {data &&
                 data.map((song, i) => {
                   return (
-                    <Draggable draggableId={song.id || i} index={i}  key={song.id}>
+                    <Draggable
+                      draggableId={song.id || i}
+                      index={i}
+                      key={song.id}
+                    >
                       {provided => (
                         <div
                           key={song.id}
