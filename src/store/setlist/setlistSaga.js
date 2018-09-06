@@ -4,12 +4,20 @@ import {
   fork,
   takeEvery,
   select,
+  put,
   take,
   cancel,
   takeLatest
 } from "redux-saga/effects";
 import uuid from "uuid";
-import { types, syncSetlistSuccess } from "./setlistActions";
+import {
+  types,
+  syncSetlistSuccess,
+  updateSets,
+  stopSyncSetlist,
+  resumeSync,
+  resumeSyncSetlist
+} from "./setlistActions";
 
 import rsf from "../rsf";
 
@@ -18,17 +26,20 @@ const SetlistTransformer = setlist => {
 };
 
 function* syncSetlistSaga(action) {
-  let setlistSync = yield fork(
-    rsf.firestore.syncDocument,
-    `setlists/${action.setlistId}`,
-    {
-      successActionCreator: syncSetlistSuccess,
-      transform: SetlistTransformer
-    }
-  );
+  while (true) {
+    let setlistSync = yield fork(
+      rsf.firestore.syncDocument,
+      `setlists/${action.setlistId}`,
+      {
+        successActionCreator: syncSetlistSuccess,
+        transform: SetlistTransformer
+      }
+    );
 
-  yield take("STOP_SYNC");
-  yield cancel(setlistSync);
+    yield take(types.SETLIST.STOP_SYNC);
+    yield cancel(setlistSync);
+    yield take(types.SETLIST.RESUME_SYNC);
+  }
 }
 
 function* addSetSaga() {
@@ -63,10 +74,12 @@ function* moveSongSaga(action) {
     destinationSet.splice(destination.index, 0, songId);
     setlist.sets[destination.droppableId] = destinationSet;
   }
-
+  yield put(stopSyncSetlist());
+  yield put.resolve(updateSets(setlist.sets));
   yield call(rsf.firestore.updateDocument, `setlists/${setlist.id}`, {
     sets: setlist.sets
   });
+  yield put(resumeSyncSetlist());
 }
 
 export default function* rootSaga() {

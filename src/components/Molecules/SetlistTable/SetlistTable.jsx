@@ -6,15 +6,14 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import history from './../../../store/history'
+import history from "./../../../store/history";
 
 const styles = theme => ({
   root: {
     width: "100%",
     overflowX: "auto"
   },
-  table: {
-  }
+  table: {}
 });
 
 const SetlistTable = props => {
@@ -22,7 +21,7 @@ const SetlistTable = props => {
 
   return (
     <Paper className={classes.root}>
-      <Table className={classes.table} padding='dense'>
+      <Table className={classes.table} padding="dense">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
@@ -35,14 +34,16 @@ const SetlistTable = props => {
         <TableBody>
           {data.map(n => {
             return (
-              <TableRow key={n.id}
-              hover
-              onClick={event => history.push(n.id+'/')}>
-                  <TableCell>{n.name}</TableCell>
-                  <TableCell>{n.date}</TableCell>
-                  <TableCell>{n.sets.length}</TableCell>
-                  <TableCell>{n.songs}</TableCell>
-                  <TableCell numeric>{n.length}</TableCell>
+              <TableRow
+                key={n.id}
+                hover
+                onClick={event => history.push(n.id + "/")}
+              >
+                <TableCell>{n.name}</TableCell>
+                <TableCell>{n.date}</TableCell>
+                <TableCell>{n.setOrder.length}</TableCell>
+                <TableCell>{n.songs}</TableCell>
+                <TableCell numeric>{n.length}</TableCell>
               </TableRow>
             );
           })}
