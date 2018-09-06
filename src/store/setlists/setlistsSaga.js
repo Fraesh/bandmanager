@@ -55,6 +55,6 @@ function * addSetlistSaga (action) {
     yield all([
       fork(syncSetlistsSaga),
       takeEvery(types.SETLISTS.ADD, addSetlistSaga),
-      takeEvery(types.SETLISTS.SETLIST.ADD, addSetSaga)
+      takeEvery(types.SETLISTS.SETLIST.ADD, addSetSaga),
     ])
   }

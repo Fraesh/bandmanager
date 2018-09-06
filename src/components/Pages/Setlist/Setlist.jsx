@@ -3,27 +3,35 @@ import SetlistScreenTemplate from "../../Templates/SetlistScreenTemplate/Setlist
 import { addSet } from "../../../store/setlists/setlistsActions";
 import { connect } from "react-redux";
 import {withRouter} from 'react-router'
+import { syncSetlist } from './../../../store/setlist/setlistActions';
+class Setlist extends React.Component{
 
-const Setlist = props => {
-  const { songs, setlists, addSet, match } = props;
-  console.log(setlists)
-  return (
+  componentDidMount(){
+    this.props.syncSetlist(this.props.match.params.setlistId);
+  }
+
+  render(){
+    const { songs, setlist, addSet, match } = this.props;
+    console.log(setlist)
+    return (
   
       <SetlistScreenTemplate
         songs={songs}
-        setlist={setlists.find(setlist => setlist.id ===match.params.setlistId)}
+        setlist={setlist}
         addSet={()=>addSet(match.params.setlistId)}
       />
  
   );
+}
 };
 
 const mapStateToProps = state => ({
   songs: state.songs,
-  setlists: state.setlists,
+  setlist: state.setlist,
 });
 const mapDispatchToProps = {
-  addSet
+  addSet,
+  syncSetlist
 };
 
 export default connect(

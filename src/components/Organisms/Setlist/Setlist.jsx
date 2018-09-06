@@ -10,7 +10,10 @@ const styles = theme => ({
 });
 
 const onDragEnd = result => {
-
+    if(!result.destination){
+        return ;
+    }
+    console.log(result)
 }
 
 const SetlistScreenTemplate = props => {
@@ -19,11 +22,11 @@ const SetlistScreenTemplate = props => {
     <div className={classes.container}>
       <DragDropContext onDragEnd={onDragEnd}>
         <Songlist data={songs} secondary={true} dense={true} id={0} />
-        {setlist && setlist.setOrder.map((set,i) =>{
+        {setlist ? setlist.setOrder.map((set,i) =>{
         return (
-          <Songlist songs={setlist.sets[set]} heading={'Set ' + i+1} key={i+1} id={i+1}/>
+          <Songlist songs={setlist.sets[set]} heading={'Set ' + (i+1)} key={i+1} id={i+1}/>
         );
-      })}
+      }): null}
       </DragDropContext>
     </div>
   );
