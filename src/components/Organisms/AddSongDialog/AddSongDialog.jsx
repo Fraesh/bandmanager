@@ -12,8 +12,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
-import { connect } from 'react-redux'
- 
+import { connect } from "react-redux";
+import { timeToSeconds } from "./../../common/time";
+
 const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
@@ -55,7 +56,14 @@ const MenuProps = {
 class AddSongDialog extends React.Component {
   state = { name: "", key: "", bpm: NaN, length: "", singer: [] };
   render() {
-    const { classes, theme, onClose, selectedValue, users, ...other } = this.props;
+    const {
+      classes,
+      theme,
+      onClose,
+      selectedValue,
+      users,
+      ...other
+    } = this.props;
 
     return (
       <Dialog
@@ -116,7 +124,7 @@ class AddSongDialog extends React.Component {
           <TextField
             autoFocus
             margin="dense"
-            id="bom"
+            id="bpm"
             label="BPM"
             type="number"
             onChange={data => this.setState({ bpm: data.target.value })}
@@ -142,7 +150,7 @@ class AddSongDialog extends React.Component {
                 key: this.state.key,
                 bpm: this.state.bpm,
                 singer: this.state.singer,
-                length: this.state.length
+                length: timeToSeconds(this.state.length)
               })
             }
             color="primary"
@@ -161,5 +169,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
- null
+  null
 )(withStyles(styles, { withTheme: true })(AddSongDialog));

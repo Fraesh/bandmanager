@@ -37,6 +37,8 @@ const SetlistScreenTemplate = props => {
                   heading={"Set " + (i + 1)}
                   key={i + 1}
                   id={set}
+                  secondary={true}
+                  dense={true}
                 />
               );
             })
