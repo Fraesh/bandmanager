@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-
+import { Link } from "react-router-dom";
 const styles = theme => ({
   container: {
     margin: theme.spacing.unit,
@@ -19,7 +19,12 @@ const SetlistScreenHeader = props => {
         {name}
       </Typography>
       <div>
-        <Button color="primary" className={classes.button}>
+        <Button
+          component={Link}
+          color="primary"
+          to="pdf/"
+          className={classes.button}
+        >
           Print PDF
         </Button>
       </div>

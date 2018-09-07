@@ -1,14 +1,11 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import Avatar from "@material-ui/core/Avatar";
-import Paper from "@material-ui/core/Paper";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 import { secondsToTime } from "../../../common/time";
 
 const styles = theme => ({
@@ -76,7 +73,7 @@ const SonglistItem = props => {
             <ListItemSecondaryAction>
               <ListItemText
                 primary={song.bpm + " bpm"}
-                secondary={secondary ? song.key : null}
+                secondary={secondary ? song.mkey : null}
               />
             </ListItemSecondaryAction>
           </ListItem>

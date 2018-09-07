@@ -13,7 +13,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
 import { connect } from "react-redux";
-import { timeToSeconds } from "./../../common/time";
+import { timeToSeconds } from "../../common/time";
 
 const styles = theme => ({
   formControl: {
@@ -29,18 +29,6 @@ const styles = theme => ({
     margin: theme.spacing.unit / 4
   }
 });
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder"
-];
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -53,8 +41,23 @@ const MenuProps = {
   }
 };
 
-class AddSongDialog extends React.Component {
-  state = { name: "", key: "", bpm: NaN, length: "", singer: [] };
+class SongDialog extends React.Component {
+  state = {
+    songname: "",
+    mkey: "",
+    bpm: NaN,
+    length: "",
+    singer: []
+  };
+
+  componentDidUpdate(prevProps) {
+    !prevProps.open &&
+      this.props.open &&
+      this.setState({
+        ...this.props
+      });
+  }
+
   render() {
     const {
       classes,
@@ -62,16 +65,23 @@ class AddSongDialog extends React.Component {
       onClose,
       selectedValue,
       users,
+      label,
       ...other
     } = this.props;
 
+    const enabled =
+      this.state.name !== "" &&
+      this.state.mkey !== "" &&
+      this.state.bpm !== NaN &&
+      this.state.length !== "" &&
+      this.state.singer !== [];
     return (
       <Dialog
         onClose={() => onClose()}
         aria-labelledby="simple-dialog-title"
         {...other}
       >
-        <DialogTitle id="simple-dialog-title">Add Song</DialogTitle>
+        <DialogTitle id="simple-dialog-title">{label || "Song"}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -79,7 +89,8 @@ class AddSongDialog extends React.Component {
             id="name"
             label="Song Name"
             type="text"
-            onChange={data => this.setState({ name: data.target.value })}
+            value={this.state.songname}
+            onChange={data => this.setState({ songname: data.target.value })}
           />
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="select-multiple-chip">Chip</InputLabel>
@@ -97,17 +108,8 @@ class AddSongDialog extends React.Component {
               )}
               MenuProps={MenuProps}
             >
-              {users.map(name => (
-                <MenuItem
-                  key={name.uid}
-                  value={name.displayName}
-                  style={{
-                    fontWeight:
-                      this.state.name.indexOf(name.displayName) === -1
-                        ? theme.typography.fontWeightRegular
-                        : theme.typography.fontWeightMedium
-                  }}
-                >
+              {users.map((name, i) => (
+                <MenuItem key={i} value={name.displayName}>
                   {name.displayName}
                 </MenuItem>
               ))}
@@ -116,10 +118,11 @@ class AddSongDialog extends React.Component {
           <TextField
             autoFocus
             margin="dense"
-            id="key"
+            id="mkey"
             label="Key"
             type="text"
-            onChange={data => this.setState({ key: data.target.value })}
+            onChange={data => this.setState({ mkey: data.target.value })}
+            value={this.state.mkey}
           />
           <TextField
             autoFocus
@@ -128,6 +131,7 @@ class AddSongDialog extends React.Component {
             label="BPM"
             type="number"
             onChange={data => this.setState({ bpm: data.target.value })}
+            value={this.state.bpm}
           />
           <TextField
             autoFocus
@@ -137,6 +141,7 @@ class AddSongDialog extends React.Component {
             type="time"
             inputProps={{ min: "0:00", max: "100:59" }}
             onChange={data => this.setState({ length: data.target.value })}
+            value={this.state.length}
           />
         </DialogContent>
         <DialogActions>
@@ -146,16 +151,17 @@ class AddSongDialog extends React.Component {
           <Button
             onClick={() =>
               onClose({
-                name: this.state.name,
-                key: this.state.key,
+                name: this.state.songname,
+                mkey: this.state.mkey,
                 bpm: this.state.bpm,
                 singer: this.state.singer,
                 length: timeToSeconds(this.state.length)
               })
             }
             color="primary"
+            disabled={!enabled}
           >
-            AddSong
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
@@ -170,4 +176,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null
-)(withStyles(styles, { withTheme: true })(AddSongDialog));
+)(withStyles(styles, { withTheme: true })(SongDialog));

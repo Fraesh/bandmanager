@@ -5,11 +5,21 @@ import { types, syncSongs } from "./songsActions";
 import rsf from "../rsf";
 
 function* addSongSaga(action) {
-  console.log(action);
   yield call(rsf.firestore.addDocument, "songs", {
     name: action.song.name,
     bpm: action.song.bpm,
-    key: action.song.key,
+    mkey: action.song.mkey,
+    singer: action.song.singer,
+    length: action.song.length
+  });
+}
+
+function* updateSongSaga(action) {
+  console.log(action);
+  yield call(rsf.firestore.updateDocument, `songs/${action.song.id}`, {
+    name: action.song.name,
+    bpm: action.song.bpm,
+    mkey: action.song.mkey,
     singer: action.song.singer,
     length: action.song.length
   });
@@ -34,5 +44,9 @@ function* syncSongsSaga() {
 }
 
 export default function* rootSaga() {
-  yield all([fork(syncSongsSaga), takeEvery(types.SONGS.ADD, addSongSaga)]);
+  yield all([
+    fork(syncSongsSaga),
+    takeEvery(types.SONGS.ADD, addSongSaga),
+    takeEvery(types.SONGS.UPDATE, updateSongSaga)
+  ]);
 }
