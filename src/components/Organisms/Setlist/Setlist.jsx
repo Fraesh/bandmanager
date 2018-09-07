@@ -5,12 +5,13 @@ import { DragDropContext } from "react-beautiful-dnd";
 const styles = theme => ({
   container: {
     flexGrow: 1,
-    display: "flex"
+    display: "flex",
+    alignItems: "start"
   }
 });
 
 const SetlistScreenTemplate = props => {
-  const { classes, setlist, songs, moveSong } = props;
+  const { classes, setlist, songs, moveSong, onDelete } = props;
 
   const onDragEnd = result => {
     moveSong(result.draggableId, result.source, result.destination);
@@ -27,7 +28,7 @@ const SetlistScreenTemplate = props => {
           dense={true}
           id={"SONGPOOL"}
         />
-        {setlist
+        {setlist && setlist.setOrder
           ? setlist.setOrder.map((set, i) => {
               return (
                 <Songlist
@@ -39,6 +40,7 @@ const SetlistScreenTemplate = props => {
                   id={set}
                   secondary={true}
                   dense={true}
+                  onDelete={onDelete}
                 />
               );
             })

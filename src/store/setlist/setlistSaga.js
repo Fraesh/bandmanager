@@ -52,6 +52,31 @@ function* addSetSaga() {
   });
 }
 
+function* deleteSetSaga(action) {
+  const { setId } = action;
+  const setlist = yield select(state => state.setlist);
+
+  const setPos = setlist.setOrder.indexOf(setId);
+  let newSetOrder = setlist.setOrder;
+  setPos >= 0 ? newSetOrder.splice(setPos, 1) : null;
+
+  let newSets = setlist.sets;
+  delete newSets[setId];
+  console.log(setId);
+  yield put(stopSyncSetlist());
+  yield put(
+    updateSets({
+      sets: newSets,
+      setOrder: newSetOrder
+    })
+  );
+  yield call(rsf.firestore.updateDocument, `setlists/${setlist.id}`, {
+    sets: newSets,
+    setOrder: newSetOrder
+  });
+  yield put(resumeSyncSetlist());
+}
+
 function* moveSongSaga(action) {
   const setlist = yield select(state => state.setlist);
   const { destination, source, songId } = action;
@@ -75,7 +100,9 @@ function* moveSongSaga(action) {
     setlist.sets[destination.droppableId] = destinationSet;
   }
   yield put(stopSyncSetlist());
-  yield put.resolve(updateSets(setlist.sets));
+
+  yield put(updateSets({ sets: setlist.sets }));
+
   yield call(rsf.firestore.updateDocument, `setlists/${setlist.id}`, {
     sets: setlist.sets
   });
@@ -86,6 +113,7 @@ export default function* rootSaga() {
   yield all([
     takeLatest(types.SETLIST.SYNC, syncSetlistSaga),
     takeEvery(types.SETLIST.ADD, addSetSaga),
-    takeEvery(types.SETLIST.MOVE_SONG, moveSongSaga)
+    takeEvery(types.SETLIST.MOVE_SONG, moveSongSaga),
+    takeEvery(types.SETLIST.DELETE, deleteSetSaga)
   ]);
 }

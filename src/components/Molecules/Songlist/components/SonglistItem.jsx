@@ -18,7 +18,8 @@ const styles = theme => ({
     transition: "box-shadow 0.2s ease-in-out"
   },
   isDragging: {
-    boxShadow: theme.shadows[20]
+    boxShadow: theme.shadows[20],
+    transition: "box-shadow 0.2s ease-in-out"
   },
   avatars: {
     width: 60,

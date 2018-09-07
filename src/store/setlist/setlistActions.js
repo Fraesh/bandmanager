@@ -1,6 +1,7 @@
 export const types = {
   SETLIST: {
-    ADD: "setlist/ADDSETLIST",
+    ADD: "setlist/ADD_SET",
+    DELETE: "setlist/DELETE_SET",
     MOVE_SONG: "setlist/MOVE_SONG",
     UPDATE_SETS: "setlist/UPDATE_SETS",
     SYNC: "setlist/SYNC_SETLIST",
@@ -12,6 +13,11 @@ export const types = {
 
 export const addSet = () => ({
   type: types.SETLIST.ADD
+});
+
+export const deleteSet = setId => ({
+  type: types.SETLIST.DELETE,
+  setId
 });
 
 export const moveSong = (songId, source, destination) => ({
@@ -31,9 +37,9 @@ export const syncSetlistSuccess = setlist => ({
   setlist
 });
 
-export const updateSets = sets => ({
+export const updateSets = payload => ({
   type: types.SETLIST.UPDATE_SETS,
-  sets
+  payload
 });
 
 export const stopSyncSetlist = () => ({

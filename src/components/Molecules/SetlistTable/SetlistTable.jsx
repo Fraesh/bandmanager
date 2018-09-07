@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import history from "./../../../store/history";
+import { secondsToTime } from "../../common/time";
 
 const styles = theme => ({
   root: {
@@ -18,7 +19,6 @@ const styles = theme => ({
 
 const SetlistTable = props => {
   const { classes, data } = props;
-
   return (
     <Paper className={classes.root}>
       <Table className={classes.table} padding="dense">
@@ -33,6 +33,7 @@ const SetlistTable = props => {
         </TableHead>
         <TableBody>
           {data.map(n => {
+            const allSongs = [].concat.apply([], Object.values(n.sets));
             return (
               <TableRow
                 key={n.id}
@@ -42,7 +43,7 @@ const SetlistTable = props => {
                 <TableCell>{n.name}</TableCell>
                 <TableCell>{n.date}</TableCell>
                 <TableCell>{n.setOrder.length}</TableCell>
-                <TableCell>{n.songs}</TableCell>
+                <TableCell>{allSongs.length}</TableCell>
                 <TableCell numeric>{n.length}</TableCell>
               </TableRow>
             );

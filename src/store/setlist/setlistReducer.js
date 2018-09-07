@@ -5,7 +5,7 @@ export default function reducer(state = null, action = {}) {
     case types.SETLIST.SYNC_SUCCESS:
       return action.setlist || state;
     case types.SETLIST.UPDATE_SETS:
-      return { ...state, sets: action.sets };
+      return { ...state, ...action.payload };
     default:
       return state;
   }

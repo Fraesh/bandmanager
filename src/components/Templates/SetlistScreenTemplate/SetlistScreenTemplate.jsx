@@ -10,6 +10,7 @@ const SetlistScreenTemplate = props => {
         songs={props.songs}
         setlist={props.setlist}
         moveSong={props.moveSong}
+        onDelete={props.onDelete}
       />
     </React.Fragment>
   );
