@@ -1,15 +1,15 @@
 import React from "react";
 import MainAppBar from "../../Organisms/MainAppBar/MainAppBar";
 import MainDrawer from "../../Organisms/MainDrawer/MainDrawer";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   content: {
-    marginTop: theme.spacing.unit * 10,
+    marginTop: theme.spacing.unit * 8,
     flexGrow: 1,
-    padding: theme.spacing.unit *2,
-    width:'100%',
-    overflowX:'auto'
+    padding: theme.spacing.unit * 2,
+    width: "100%",
+    overflowX: "auto"
   }
 });
 class Layout extends React.Component {
