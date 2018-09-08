@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import "./App.css";
 import { ConnectedRouter } from "connected-react-router";
 import { addSong } from "./store/songs/songsActions";
@@ -11,6 +11,7 @@ import Layout from "./components/Pages/Layout/Layout";
 import history from "./store/history";
 import AuthRoute from "./components/Molecules/AuthRoute/AuthRoute";
 import SetlistToPDF from "./components/Pages/SetlistToPDF/SetlistToPDF";
+import Dashboard from "./components/Pages/Dashboard/Dashboard";
 class App extends Component {
   render() {
     return (
@@ -18,6 +19,7 @@ class App extends Component {
         <Layout>
           <Switch>
             <AuthRoute exact path="/songs/" component={Songpool} />
+            <AuthRoute exact path="/" component={Dashboard} />
             <AuthRoute exact path="/setlist/" component={SelectSetlist} />
             <AuthRoute exact path="/setlist/:setlistId/" component={Setlist} />
             <AuthRoute

@@ -1,4 +1,4 @@
-const timeRegEx = /\d\d\:\d\d/g;
+const timeRegEx = /\d\d:\d\d/g;
 
 export const timeToSeconds = time => {
   if (!timeRegEx.test(time)) {

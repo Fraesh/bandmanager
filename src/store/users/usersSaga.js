@@ -1,6 +1,6 @@
-import { all, call, fork, takeEvery } from "redux-saga/effects";
+import { all, fork } from "redux-saga/effects";
 
-import { types, syncUsers } from "./usersActions";
+import { syncUsers } from "./usersActions";
 
 import rsf from "../rsf";
 

@@ -15,7 +15,6 @@ import {
   syncSetlistSuccess,
   updateSets,
   stopSyncSetlist,
-  resumeSync,
   resumeSyncSetlist
 } from "./setlistActions";
 

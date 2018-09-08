@@ -1,16 +1,18 @@
-import { all, call, fork, takeEvery } from "redux-saga/effects";
+import { all, call, fork, select, takeEvery } from "redux-saga/effects";
 
 import { types, syncSongs } from "./songsActions";
 
 import rsf from "../rsf";
 
 function* addSongSaga(action) {
+  const user = yield select(state => state.auth.user.displayName);
   yield call(rsf.firestore.addDocument, "songs", {
     name: action.song.name,
     bpm: action.song.bpm,
     mkey: action.song.mkey,
     singer: action.song.singer,
-    length: action.song.length
+    length: action.song.length,
+    creator: user
   });
 }
 
