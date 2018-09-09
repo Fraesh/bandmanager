@@ -6,8 +6,8 @@ export const timeToSeconds = time => {
   }
   const parsedTime = time.split(":");
   let seconds = 0;
-  seconds += parseInt(parsedTime[0]) * 60;
-  seconds += parseInt(parsedTime[1]);
+  seconds += parseInt(parsedTime[0], 10) * 60;
+  seconds += parseInt(parsedTime[1], 10);
   return seconds;
 };
 

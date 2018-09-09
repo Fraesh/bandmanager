@@ -12,6 +12,10 @@ import history from "./store/history";
 import AuthRoute from "./components/Molecules/AuthRoute/AuthRoute";
 import SetlistToPDF from "./components/Pages/SetlistToPDF/SetlistToPDF";
 import Dashboard from "./components/Pages/Dashboard/Dashboard";
+import Settings from "./components/Pages/Settings/Settings";
+import Gigs from "./components/Pages/Gigs/Gigs";
+import "typeface-roboto";
+
 class App extends Component {
   render() {
     return (
@@ -21,6 +25,8 @@ class App extends Component {
             <AuthRoute exact path="/songs/" component={Songpool} />
             <AuthRoute exact path="/" component={Dashboard} />
             <AuthRoute exact path="/setlist/" component={SelectSetlist} />
+            <AuthRoute exact path="/settings/" component={Settings} />
+            <AuthRoute exact path="/gigs/" component={Gigs} />
             <AuthRoute exact path="/setlist/:setlistId/" component={Setlist} />
             <AuthRoute
               exact

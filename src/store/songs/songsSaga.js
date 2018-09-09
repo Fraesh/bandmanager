@@ -5,7 +5,7 @@ import { types, syncSongs } from "./songsActions";
 import rsf from "../rsf";
 
 function* addSongSaga(action) {
-  const user = yield select(state => state.auth.user.displayName);
+  const user = yield select(state => state.auth.user.id);
   yield call(rsf.firestore.addDocument, "songs", {
     name: action.song.name,
     bpm: action.song.bpm,

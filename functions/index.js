@@ -42,16 +42,16 @@ exports.addNewsItem = functions.firestore
             name: data.name
           });
       case "users":
-        console.log("New User: " + context.params.item);
+        console.log("Data", data);
         return admin
           .firestore()
           .collection("news")
           .add({
             type: "USER",
             itemId: context.params.item,
-            date: new Date(),
+            creationDate: new Date(),
             name: data.displayName,
-            photoUrl: data.photoUrl
+            photoURL: data.photoURL
           });
     }
     return null;

@@ -4,7 +4,7 @@ import { types, syncSetlists } from "./setlistsActions";
 import rsf from "../rsf";
 
 function* addSetlistSaga(action) {
-  const user = yield select(state => state.auth.user.displayName);
+  const user = yield select(state => state.auth.user.id);
   yield call(rsf.firestore.addDocument, "setlists", {
     name: action.setlist.name,
     sets: {},

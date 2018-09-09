@@ -7,6 +7,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import { Draggable } from "react-beautiful-dnd";
 import { secondsToTime } from "../../../common/time";
+import BandAvatar from "../../../Atoms/BandAvatar/BandAvatar";
+import MultipleAvatars from "../../MultipleAvatars/MultipleAvatars";
 
 const styles = theme => ({
   root: {
@@ -22,10 +24,6 @@ const styles = theme => ({
     width: 60,
     display: "flex",
     justifyContent: "start"
-  },
-  avatar: {
-    gridRow: 1
-    // gridColumn:1,
   }
 });
 
@@ -48,24 +46,7 @@ const SonglistItem = props => {
                 : classes.root
             }
           >
-            <div className={classes.avatars}>
-              {song.singer &&
-                song.singer.map((singer, i) => (
-                  <ListItemAvatar
-                    key={i}
-                    className={classes.avatar}
-                    style={
-                      i >= 1
-                        ? {
-                            marginLeft: -song.singer.length * 8
-                          }
-                        : {}
-                    }
-                  >
-                    <Avatar>{singer[0]}</Avatar>
-                  </ListItemAvatar>
-                ))}
-            </div>
+            <MultipleAvatars singer={song.singer} />
             <ListItemText
               primary={song.name}
               secondary={secondary ? secondsToTime(song.length) : null}

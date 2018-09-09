@@ -8,6 +8,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { secondsToTime } from "./../../common/time";
 import MediaQuery from "react-responsive";
+import BandAvatar from "../../Atoms/BandAvatar/BandAvatar";
+import MultipleAvatars from "../MultipleAvatars/MultipleAvatars";
 
 const styles = theme => ({
   root: {
@@ -57,7 +59,9 @@ class SongTable extends React.Component {
                       "px)"
                     }
                   >
-                    <TableCell>{n.singer[0]}</TableCell>
+                    <TableCell>
+                      <MultipleAvatars singer={n.singer} />
+                    </TableCell>
                   </MediaQuery>
                   <TableCell>{n.mkey}</TableCell>
                   <TableCell>{n.bpm}</TableCell>

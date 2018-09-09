@@ -5,6 +5,7 @@ import {
   fork,
   put,
   take,
+  select,
   takeEvery,
   takeLatest
 } from "redux-saga/effects";
@@ -15,7 +16,7 @@ import {
   loginFailure,
   logoutSuccess,
   logoutFailure,
-  updateUserData
+  addUserData
 } from "./authActions";
 
 import rsf from "../rsf";
@@ -41,10 +42,19 @@ function* logoutSaga() {
 }
 
 function* updateUserDataSaga(action) {
+  const userId = yield select(store => store.auth.user.id);
+  yield call(rsf.firestore.updateDocument, `users/${userId}`, {
+    ...action.user
+  });
+}
+
+function* addUserDataSaga(action) {
   yield call(rsf.firestore.setDocument, `users/${action.user.uid}`, {
     displayName: action.user.displayName,
     photoURL: action.user.photoURL,
-    email: action.user.email
+    email: action.user.email,
+    color: action.user.color,
+    singer: action.user.singer
   });
 }
 
@@ -56,8 +66,22 @@ function* loginStatusWatcher() {
     const { user } = yield take(channel);
 
     if (user) {
-      yield put(loginSuccess(user));
-      yield put(updateUserData(user));
+      let userData = {};
+      const snapshot = yield call(rsf.firestore.getCollection, "users");
+      let users;
+      snapshot.forEach(user => {
+        users = {
+          ...users,
+          [user.id]: user.data()
+        };
+      });
+      if (users !== undefined && user.uid in users) {
+        userData = users[user.uid];
+      } else {
+        userData = { ...user, color: "#607d8b", singer: true };
+        yield put(addUserData(userData));
+      }
+      yield put(loginSuccess({ ...userData, id: user.uid }));
     } else yield put(logoutSuccess());
   }
 }
@@ -67,6 +91,7 @@ export default function* loginRootSaga() {
   yield all([
     takeEvery(types.AUTH.LOGIN.REQUEST, loginSaga),
     takeEvery(types.AUTH.LOGOUT.REQUEST, logoutSaga),
-    takeLatest(types.AUTH.UPDATE.USER, updateUserDataSaga)
+    takeLatest(types.AUTH.UPDATE.USER, updateUserDataSaga),
+    takeLatest(types.AUTH.ADD.USER, addUserDataSaga)
   ]);
 }

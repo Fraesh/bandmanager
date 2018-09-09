@@ -2,6 +2,7 @@ import React from "react";
 import SongCard from "./components/SongCard";
 import { withStyles } from "@material-ui/core/styles";
 import SetlistCard from "./components/SetlistCard";
+import UserCard from "./components/UserCard";
 
 const styles = theme => ({
   root: {
@@ -26,7 +27,9 @@ const DashboardTemplate = props => {
           case "SETLIST":
             return <SetlistCard data={item} />;
           case "USER":
-            return null;
+            return <UserCard data={item} />;
+          default:
+            return <div />;
         }
       })}
     </div>

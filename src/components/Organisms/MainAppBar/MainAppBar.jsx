@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import { Link } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -9,6 +10,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { loginRequest, logoutRequest } from "./../../../store/auth/authActions";
 import { connect } from "react-redux";
 import { Avatar } from "@material-ui/core";
+import BandAvatar from "../../Atoms/BandAvatar/BandAvatar";
 
 const styles = theme => ({
   appBar: {
@@ -39,9 +41,9 @@ const styles = theme => ({
     height: "2rem",
     margin: ".5rem"
   },
-  avatarSection:{
-    display:'flex',
-    alignItems:'center',
+  avatarSection: {
+    display: "flex",
+    alignItems: "center",
     marginRight: theme.spacing.unit
   }
 });
@@ -60,18 +62,21 @@ const MainAppBar = props => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            {props.title}
-          </Typography>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
+              {props.title}
+            </Typography>
+          </Link>
         </div>
         <div className={classes.side}>
           {props.loggedIn ? (
             <React.Fragment>
               <div className={classes.avatarSection}>
-                <Avatar className={classes.avatar}>
-                  {props.user && props.user.displayName[0]}
-                </Avatar>
-                {props.user && props.user.displayName}
+                <BandAvatar userId={props.user.id} />
               </div>
               <Button color="inherit" onClick={props.logoutRequest}>
                 Logout

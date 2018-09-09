@@ -4,8 +4,7 @@ const initialState = {
   loading: false,
   loggedIn: false,
   user: null
-}
-
+};
 
 export default function reducer(state = [], action = {}) {
   switch (action.type) {
@@ -14,26 +13,26 @@ export default function reducer(state = [], action = {}) {
       return {
         ...state,
         loading: true
-      }
+      };
     case types.AUTH.LOGIN.SUCCESS:
       return {
         ...state,
         loading: false,
         loggedIn: true,
         user: action.user
-      }
+      };
     case types.AUTH.LOGIN.FAILURE:
       return {
         ...state,
         loading: false
-      }
+      };
     case types.AUTH.LOGOUT.SUCCESS:
-      return initialState
+      return initialState;
     case types.AUTH.LOGOUT.FAILURE:
       return {
         ...state,
         loading: false
-      }
+      };
     default:
       return state;
   }

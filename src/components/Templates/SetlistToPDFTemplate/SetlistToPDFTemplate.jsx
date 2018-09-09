@@ -5,7 +5,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
   Font
 } from "@react-pdf/renderer";
 import { secondsToTime } from "./../../common/time";
@@ -98,11 +97,15 @@ const styles = StyleSheet.create({
   },
   mkey: {
     color: "#444",
-    fontSize: 12
+    fontSize: 12,
+    width: 40,
+    textAlign: "right"
   },
   bpm: {
     color: "#444",
-    fontSize: 12
+    fontSize: 12,
+    width: 80,
+    textAlign: "right"
   }
 });
 

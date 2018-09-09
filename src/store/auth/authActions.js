@@ -10,14 +10,17 @@ export const types = {
       SUCCESS: "auth/LOGOUTSUCCESS",
       FAILURE: "auth/LOGOUTFAILURE"
     },
+    ADD: {
+      USER: "auth/ADD_USERDATA"
+    },
     UPDATE: {
-        USER:'auth/UPDATEUSERDATA'
+      USER: "auth/UPDATEUSERDATA"
     }
   }
 };
 
 export const loginRequest = () => ({
-  type: types.AUTH.LOGIN.REQUEST,
+  type: types.AUTH.LOGIN.REQUEST
 });
 
 export const loginSuccess = user => ({
@@ -45,5 +48,10 @@ export const logoutFailure = error => ({
 
 export const updateUserData = user => ({
   type: types.AUTH.UPDATE.USER,
+  user
+});
+
+export const addUserData = user => ({
+  type: types.AUTH.ADD.USER,
   user
 });

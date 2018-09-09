@@ -1,6 +1,6 @@
 import React from "react";
 import SetlistScreenTemplate from "../../Templates/SetlistScreenTemplate/SetlistScreenTemplate";
-import { addSet } from "../../../store/setlists/setlistsActions";
+import { addSet } from "../../../store/setlist/setlistActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import {

@@ -72,7 +72,7 @@ class SongDialog extends React.Component {
     const enabled =
       this.state.name !== "" &&
       this.state.mkey !== "" &&
-      this.state.bpm !== NaN &&
+      !isNaN(this.state.bpm) &&
       this.state.length !== "" &&
       this.state.singer !== [];
     return (
@@ -102,17 +102,24 @@ class SongDialog extends React.Component {
               renderValue={selected => (
                 <div className={classes.chips}>
                   {selected.map(value => (
-                    <Chip key={value} label={value} className={classes.chip} />
+                    <Chip
+                      key={value}
+                      label={users.find(user => user.id === value).displayName}
+                      className={classes.chip}
+                    />
                   ))}
                 </div>
               )}
               MenuProps={MenuProps}
             >
-              {users.map((name, i) => (
-                <MenuItem key={i} value={name.displayName}>
-                  {name.displayName}
-                </MenuItem>
-              ))}
+              {users.map(
+                (user, i) =>
+                  user.singer && (
+                    <MenuItem key={i} value={user.id}>
+                      {user.displayName}
+                    </MenuItem>
+                  )
+              )}
             </Select>
           </FormControl>
           <TextField

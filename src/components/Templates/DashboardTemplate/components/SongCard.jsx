@@ -8,6 +8,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import red from "@material-ui/core/colors/red";
+import BandAvatar from "../../../Atoms/BandAvatar/BandAvatar";
 
 const styles = theme => ({
   card: {
@@ -40,11 +41,7 @@ const SongCard = props => {
   return (
     <Card className={classes.card}>
       <CardHeader
-        avatar={
-          <Avatar aria-label="newSong" className={classes.avatar}>
-            {data.creator[0]}
-          </Avatar>
-        }
+        avatar={<BandAvatar userId={data.creator} />}
         title="New Song added"
         subheader={data.creationDate.toLocaleDateString("en-US")}
       />
